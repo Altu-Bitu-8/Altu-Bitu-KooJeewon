@@ -44,7 +44,3 @@ int main() {
         cout << ((de.bmr - bmr > 0) ? "YOYO" : "NO") << '\n';
     }
 }
-
-
-
-
