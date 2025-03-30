@@ -1,33 +1,56 @@
 //2607 - 비슷한 단어 (Silver2, 구현, 문자열)
 #include <iostream>
-#include <queue> 
 #include <vector>
 
 using namespace std;
+const int NUM_CHARS = 26;
+
+ // 각 알파벳의 개수 세기
+vector<int> countFreq(string word) {
+    vector<int> freq;
+    for (int i = 0; i < word.length(); i++) {
+        freq[word[i] - 'A']++;
+    }
+    return freq;
+}
+
+int countDiff(string word, vector<int>& original_freq) {
+    vector<int> freq(NUM_CHARS, 0);
+    int diff = 0; // 원본 단어와의 차이
+
+    // 각 알파벳의 개수 세기
+    countFreq(word, freq); 
+
+    // 원본 단어와 다른 알파벳 개수 구하기
+    for (int i = 0; i < NUM_CHARS; i++) {
+        diff += abs(original_freq[i] - freq[i]);
+    }
+    return diff;
+}
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+    int n, ans = 0;
+    string original;
 
-    //입력
-    int n, x; //x: 입력받을 숫자를 저장하는 변수
-    cin >> n;
-    priority_queue<int, vector<int>, greater<int> > min_heap; // 최소 힙 사용(greater<int>)
+    // 입력
+    cin >> n >> original;
+    vector<int> original_freq(NUM_CHARS, 0);
 
+    // 연산
+    countFreq(original, original_freq);
 
-    //연산 & 출력
-    for (int i = 0; i < n * n; i++) {
-        cin >> x;
-        if (min_heap.size() < n) {
-            min_heap.push(x); //바로 push(x)[값을 추가/ n개로 만들려고]
-        }
-        else if (min_heap.top() < x) {
-            min_heap.pop(); //제거
-            min_heap.push(x); //새로운 x를 추가
+    for (int i = 1; i < n; i++) {
+        string word;
+        cin >> word;
+
+        int diff = countDiff(word, original_freq);
+        // 비슷한 단어 세기
+        if (diff == 0 || diff == 1 || diff == 2 && original.length() == word.length()) {
+            ans++;
         }
     }
 
-    cout << min_heap.top() << "\n"; //N번째로 큰 수 출력
+    // 출력
+    cout << ans;
     return 0;
 }
