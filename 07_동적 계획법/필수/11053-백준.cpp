@@ -6,6 +6,7 @@
 using namespace std;
 
 int main() {
+    //입력
     int N;
     cin >> N;
 
@@ -14,6 +15,7 @@ int main() {
         cin >> arr[i];
     }
 
+    //연산
     vector<int> dp(N, 1); // 각 원소를 끝으로 하는 LIS 길이 초기화 (1)
 
     for (int i = 1; i < N; i++) {
@@ -24,6 +26,7 @@ int main() {
         }
     }
 
+    //출력
     int result = *max_element(dp.begin(), dp.end());
     cout << result << '\n';
 
